@@ -1,4 +1,4 @@
-package cz.chalda;
+package cz.chalda.knowledgebase;
 
 
 import org.junit.jupiter.api.Assertions;
