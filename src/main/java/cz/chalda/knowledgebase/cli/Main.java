@@ -4,6 +4,8 @@ import com.google.common.flogger.FluentLogger;
 import cz.chalda.knowledgebase.execution.ExecutionConfiguration;
 import cz.chalda.knowledgebase.execution.ExecutionContext;
 import cz.chalda.knowledgebase.repository.RepositoryProcessor;
+import cz.chalda.knowledgebase.selector.Selector;
+import cz.chalda.knowledgebase.selector.SelectorProvider;
 import picocli.CommandLine;
 
 import java.nio.file.Path;
@@ -19,13 +21,19 @@ public class Main extends CliArgs implements Callable<Integer> {
                 .repository(this.repository)
                 .repositoryRef(this.repositoryReference)
                 .repositoryType(this.repositoryType)
+                .selectorType(this.selectorType)
                 .build();
 
         Path repositoryPath = RepositoryProcessor.get(context.getConfiguration());
         if(repositoryPath == null) {
             log.atSevere().log("Cannot find repository handler capable to get data from repository '%s'", this.repository);
+            return 1;
         }
-        log.atInfo().log(">>>>> %s", repositoryPath);
+
+        Selector selector = SelectorProvider.provide(context.getConfiguration());
+        Path selectedKnowledgebaseNote = selector.select(repositoryPath);
+
+        log.atInfo().log("MAIN: >>>>> %s", selectedKnowledgebaseNote);
         return 0;
     }
 

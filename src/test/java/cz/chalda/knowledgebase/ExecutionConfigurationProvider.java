@@ -9,6 +9,6 @@ public final class ExecutionConfigurationProvider {
     }
 
     public static ExecutionConfiguration repository(String repository, String ref, RepositoryType type) {
-        return new ExecutionConfiguration(repository, ref, type);
+        return new ExecutionConfiguration(repository, ref, type, null);
     }
 }

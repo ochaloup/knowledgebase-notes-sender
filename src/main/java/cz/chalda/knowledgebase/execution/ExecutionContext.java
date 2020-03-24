@@ -1,6 +1,7 @@
 package cz.chalda.knowledgebase.execution;
 
 import cz.chalda.knowledgebase.repository.RepositoryType;
+import cz.chalda.knowledgebase.selector.SelectorType;
 
 import java.nio.file.Path;
 import java.util.concurrent.ExecutorService;
@@ -27,6 +28,7 @@ public class ExecutionContext {
     public static class Builder {
         private String repository, repositoryRef;
         private RepositoryType repositoryType;
+        private SelectorType selectorType;
 
         // private constructor
         private Builder() {}
@@ -46,11 +48,16 @@ public class ExecutionContext {
             this.repositoryType = repositoryType;
             return this;
         }
+        public Builder selectorType(SelectorType selectorType) {
+            this.selectorType = selectorType;
+            return this;
+        }
         public ExecutionContext build() {
             ExecutionConfiguration conf = new ExecutionConfiguration(
                     this.repository,
                     this.repositoryRef,
-                    this.repositoryType
+                    this.repositoryType,
+                    this.selectorType
             );
             return new ExecutionContext(conf);
         }

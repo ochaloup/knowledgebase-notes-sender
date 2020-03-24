@@ -6,7 +6,11 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Optional;
 
-public class RepositoryProcessor {
+public final class RepositoryProcessor {
+    private RepositoryProcessor() {
+        throw new IllegalStateException("cannot be instantiated");
+    }
+
     private static final Repository[] implementations =
         new Repository[] {new RepositoryFile(), new RepositoryGit()};
 
