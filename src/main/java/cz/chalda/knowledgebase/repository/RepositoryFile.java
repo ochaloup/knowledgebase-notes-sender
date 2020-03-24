@@ -21,7 +21,7 @@ class RepositoryFile implements Repository {
 
     @Override
     public boolean mayHandle(ExecutionConfiguration conf) {
-        if(RepositoryType.DIRECTORY == conf.getRepositoryType()) {
+        if(RepositoryType.FILE == conf.getRepositoryType()) {
             log.atFinest().log("repository type defines this is identification of file");
             return true;
         }
