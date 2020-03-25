@@ -1,10 +1,10 @@
 package cz.chalda.knowledgebase.execution;
 
+import cz.chalda.knowledgebase.converter.ConverterType;
 import cz.chalda.knowledgebase.repository.RepositoryType;
 import cz.chalda.knowledgebase.selector.SelectorType;
 
 import java.nio.file.Path;
-import java.util.concurrent.ExecutorService;
 
 public class ExecutionContext {
     private final ExecutionConfiguration executionConfiguration;
@@ -40,6 +40,7 @@ public class ExecutionContext {
         private String repository, repositoryRef;
         private RepositoryType repositoryType;
         private SelectorType selectorType;
+        private ConverterType converterType;
 
         // private constructor
         private Builder() {}
@@ -63,12 +64,18 @@ public class ExecutionContext {
             this.selectorType = selectorType;
             return this;
         }
+        public Builder converterType(ConverterType converterType) {
+            this.converterType = converterType;
+            return this;
+        }
+
         public ExecutionContext build() {
             ExecutionConfiguration conf = new ExecutionConfiguration(
                     this.repository,
                     this.repositoryRef,
                     this.repositoryType,
-                    this.selectorType
+                    this.selectorType,
+                    this.converterType
             );
             return new ExecutionContext(conf);
         }

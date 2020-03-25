@@ -1,7 +1,5 @@
 package cz.chalda.knowledgebase.selector;
 
-import cz.chalda.knowledgebase.execution.ExecutionConfiguration;
-
 import java.nio.file.Path;
 
 public interface Selector {

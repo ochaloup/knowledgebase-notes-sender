@@ -1,5 +1,6 @@
 package cz.chalda.knowledgebase.cli;
 
+import cz.chalda.knowledgebase.converter.ConverterType;
 import cz.chalda.knowledgebase.repository.RepositoryType;
 import cz.chalda.knowledgebase.selector.SelectorType;
 import picocli.CommandLine;
@@ -17,4 +18,7 @@ public class CliArgs {
 
     @CommandLine.Option(names = {"-s", "--selector-type"}, description = "selector type")
     protected SelectorType selectorType;
+
+    @CommandLine.Option(names = {"-c", "--converter-type"}, description = "converter type")
+    protected ConverterType converterType;
 }

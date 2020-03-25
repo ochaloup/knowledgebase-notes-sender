@@ -1,7 +1,7 @@
 package cz.chalda.knowledgebase.execution;
 
+import cz.chalda.knowledgebase.converter.ConverterType;
 import cz.chalda.knowledgebase.repository.RepositoryType;
-import cz.chalda.knowledgebase.selector.Selector;
 import cz.chalda.knowledgebase.selector.SelectorType;
 
 import java.util.Objects;
@@ -10,15 +10,18 @@ public class ExecutionConfiguration {
     private final String repository, repositoryRef;
     private final RepositoryType repositoryType;
     private final SelectorType selectorType;
+    private final ConverterType converterType;
 
     public ExecutionConfiguration(String repository,
                                   String repositoryRef,
                                   RepositoryType repositoryType,
-                                  SelectorType selectorType) {
+                                  SelectorType selectorType,
+                                  ConverterType converterType) {
         this.repository = repository;
         this.repositoryRef = repositoryRef;
         this.repositoryType = repositoryType;
         this.selectorType = selectorType;
+        this.converterType = converterType;
     }
 
     public String getRepository() {
@@ -37,6 +40,10 @@ public class ExecutionConfiguration {
         return this.selectorType;
     }
 
+    public ConverterType getConverterType() {
+        return this.converterType;
+    }
+
     @Override
     public String toString() {
         return "ExecutionConfiguration{" +
@@ -44,6 +51,7 @@ public class ExecutionConfiguration {
                 ", repositoryRef='" + repositoryRef + '\'' +
                 ", repositoryType=" + repositoryType +
                 ", selectorType=" + selectorType +
+                ", converterType=" + converterType +
                 '}';
     }
 
@@ -55,12 +63,12 @@ public class ExecutionConfiguration {
         return Objects.equals(getRepository(), that.getRepository()) &&
                 Objects.equals(getRepositoryRef(), that.getRepositoryRef()) &&
                 getRepositoryType() == that.getRepositoryType() &&
-                getSelectorType() == that.getSelectorType();
+                getSelectorType() == that.getSelectorType() &&
+                getConverterType() == that.getConverterType();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getRepository(), getRepositoryRef(), getRepositoryType(), getSelectorType());
+        return Objects.hash(getRepository(), getRepositoryRef(), getRepositoryType(), getSelectorType(), getConverterType());
     }
-
 }
