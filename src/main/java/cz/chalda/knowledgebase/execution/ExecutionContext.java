@@ -8,7 +8,7 @@ import java.util.concurrent.ExecutorService;
 
 public class ExecutionContext {
     private final ExecutionConfiguration executionConfiguration;
-    private Path repositoryPath;
+    private Path repositoryPath, knowledgebaseNotePath;
 
     private ExecutionContext(ExecutionConfiguration conf) {
         this.executionConfiguration = conf;
@@ -18,12 +18,23 @@ public class ExecutionContext {
         return this.executionConfiguration;
     }
 
-    public void setRepositoryPath(Path repositoryPath) {
+    public ExecutionContext setRepositoryPath(Path repositoryPath) {
         this.repositoryPath = repositoryPath;
+        return this;
     }
     public Path getRepositoryPath() {
         return this.repositoryPath;
     }
+
+
+    public ExecutionContext setKnowledgebaseNotePath(Path knowledgebaseNotePath) {
+        this.knowledgebaseNotePath = knowledgebaseNotePath;
+        return this;
+    }
+    public Path getKnowledgebaseNotePath() {
+        return this.knowledgebaseNotePath;
+    }
+
 
     public static class Builder {
         private String repository, repositoryRef;

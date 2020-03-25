@@ -4,7 +4,7 @@ import cz.chalda.knowledgebase.execution.ExecutionConfiguration;
 
 import java.nio.file.Path;
 
-public interface Repository {
+interface Repository {
     /**
      * Get path to the repository which may be used for processing.
      *
