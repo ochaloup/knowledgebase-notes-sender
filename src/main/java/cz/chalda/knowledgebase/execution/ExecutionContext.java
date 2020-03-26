@@ -11,7 +11,7 @@ public class ExecutionContext {
     private final ExecutionConfiguration executionConfiguration;
     private Path repositoryLocation, knowledgebaseNotePath;
 
-    private volatile boolean isError = true;
+    private volatile boolean isError = false;
     private String errorMessage, stackTrace;
 
     private ExecutionContext(ExecutionConfiguration conf) {

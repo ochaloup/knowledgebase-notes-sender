@@ -4,7 +4,6 @@ import cz.chalda.knowledgebase.execution.ExecutionConfiguration;
 import cz.chalda.knowledgebase.execution.ExecutionContext;
 import cz.chalda.knowledgebase.execution.ExecutionProvider;
 
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -30,13 +29,14 @@ public final class ProviderRepository implements ExecutionProvider {
         try {
             repository = getRepository(context.getConfiguration().getRepositoryType(), conf);
             if (repository.isEmpty()) {
-                return context.setError("Cannot find proper repository provider to handle input repository '%s' of reference '%s'",
-                        conf.getInputLocation(), conf.getRepositoryRef());
+                return context.setError("Cannot find proper repository provider to handle input location '%s'%s.%n "+
+                        "[TIP] Verify if the input location does exist!",
+                        conf.getInputLocation(), conf.getRepositoryRef() == null  ? "" : " --ref=" + conf.getRepositoryRef());
             }
             var repositoryLocation = repository.get().obtain(conf);
             return context.setRepositoryLocation(repositoryLocation);
         } catch(Exception e) {
-            return context.setError(e, "Error on processing repository '%s' to handle input location '%s' of reference '%s'",
+            return context.setError(e, "Error on processing input location with repository provider '%s',  --input='%s' --ref='%s'.",
                     repository.isEmpty() ? "null" : repository.get().toString(), conf.getInputLocation(), conf.getRepositoryRef());
         }
     }
@@ -44,8 +44,8 @@ public final class ProviderRepository implements ExecutionProvider {
     Optional<Repository> getRepository(final RepositoryType repositoryType, final ExecutionConfiguration conf) {
         if(repositoryType != null) {
             switch (repositoryType) {
-                case DIRECTORY:
-                    return Optional.of(RepositoryType.DIRECTORY.getRepository());
+                case FILESYSTEM:
+                    return Optional.of(RepositoryType.FILESYSTEM.getRepository());
                 case GIT:
                     return Optional.of(RepositoryType.GIT.getRepository());
             }

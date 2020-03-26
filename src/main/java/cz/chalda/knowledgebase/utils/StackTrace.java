@@ -17,11 +17,13 @@ public final class StackTrace {
     }
 
     public static String getStackTrace(long limit) {
-        return StackWalker.getInstance()
-                .walk(s -> s.limit(limit))
-                .collect(StringBuilder::new,
-                        (sb,sf) -> sb.append(sf.toString()).append(NEW_LINE),
-                        StringBuilder::append)
+        return StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+                .walk(frames -> frames
+                    .skip(1)
+                    .limit(limit)
+                    .collect(StringBuilder::new,
+                        (sb,sf) -> sb.append("  ").append(sf.toString()).append(NEW_LINE),
+                        StringBuilder::append))
                 .toString();
     }
 

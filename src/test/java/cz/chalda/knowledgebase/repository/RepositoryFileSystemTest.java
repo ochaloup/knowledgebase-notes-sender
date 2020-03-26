@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class RepositoryDirectoryTest {
+public class RepositoryFileSystemTest {
     private static final FluentLogger log = FluentLogger.forEnclosingClass();
     private static Path tempFolder, test1;
 
@@ -32,9 +32,9 @@ public class RepositoryDirectoryTest {
 
     @Test
     public void usedProvidedFolder() {
-        ExecutionConfiguration conf = ExecutionConfigurationProvider.repository(tempFolder.toString(), null, RepositoryType.DIRECTORY);
-        RepositoryDirectory repositoryDirectory = new RepositoryDirectory();
-        Path testFilePath = repositoryDirectory.obtain(conf);
+        ExecutionConfiguration conf = ExecutionConfigurationProvider.repository(tempFolder.toString(), null, RepositoryType.FILESYSTEM);
+        RepositoryFileSystem repositoryFilesystem = new RepositoryFileSystem();
+        Path testFilePath = repositoryFilesystem.obtain(conf);
 
         Assertions.assertEquals(tempFolder, testFilePath,"Expected the testing folder is one returned");
         Assertions.assertTrue(Files.isRegularFile(testFilePath.resolve("test1")), "Expected file " + testFilePath.resolve("test1") + " exists");
@@ -42,15 +42,15 @@ public class RepositoryDirectoryTest {
 
     @Test
     public void matchFileType() {
-        ExecutionConfiguration conf = ExecutionConfigurationProvider.repository(null, null, RepositoryType.DIRECTORY);
-        RepositoryDirectory repositoryDirectory = new RepositoryDirectory();
-        Assertions.assertFalse(repositoryDirectory.mayHandle(conf), "Repository defined as null, it can't be handled");
+        ExecutionConfiguration conf = ExecutionConfigurationProvider.repository(null, null, RepositoryType.FILESYSTEM);
+        RepositoryFileSystem repositoryFilesystem = new RepositoryFileSystem();
+        Assertions.assertFalse(repositoryFilesystem.mayHandle(conf), "Repository defined as null, it can't be handled");
     }
 
     @Test
     public void matchFileExistence() {
         ExecutionConfiguration conf = ExecutionConfigurationProvider.repository(tempFolder.toString(), null, null);
-        RepositoryDirectory repositoryDirectory = new RepositoryDirectory();
-        Assertions.assertTrue(repositoryDirectory.mayHandle(conf), "Repository defined with existing folder, it should be handled");
+        RepositoryFileSystem repositoryFilesystem = new RepositoryFileSystem();
+        Assertions.assertTrue(repositoryFilesystem.mayHandle(conf), "Repository defined with existing folder, it should be handled");
     }
 }

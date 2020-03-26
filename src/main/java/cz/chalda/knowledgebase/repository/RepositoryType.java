@@ -1,7 +1,7 @@
 package cz.chalda.knowledgebase.repository;
 
 public enum RepositoryType {
-    DIRECTORY(new RepositoryDirectory()),
+    FILESYSTEM(new RepositoryFileSystem()),
     GIT(new RepositoryGit());
 
     private Repository repository;

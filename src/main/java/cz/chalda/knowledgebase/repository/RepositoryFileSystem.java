@@ -6,14 +6,14 @@ import cz.chalda.knowledgebase.execution.ExecutionConfiguration;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-class RepositoryDirectory implements Repository {
+class RepositoryFileSystem implements Repository {
     private static final FluentLogger log = FluentLogger.forEnclosingClass();
 
     @Override
     public Path obtain(ExecutionConfiguration conf) {
         var repositoryPath = Path.of(conf.getInputLocation());
-        if(!Files.isDirectory(repositoryPath)) {
-            log.atFinest().log("repository path %s is not an existing directory", repositoryPath);
+        if(!Files.exists(repositoryPath)) {
+            log.atFinest().log("repository path %s is not an file system path", repositoryPath);
             return null;
         }
         return repositoryPath;
@@ -26,9 +26,9 @@ class RepositoryDirectory implements Repository {
             return false;
         }
         Path repositoryProposal = Path.of(conf.getInputLocation());
-        boolean isDirectoryIdentification = Files.isDirectory(repositoryProposal);
+        boolean isFileSystemIdentification = Files.exists(repositoryProposal);
         log.atFinest().log("repositoryIdentification was decided %s %s type",
-                isDirectoryIdentification ? "to be" : "not to be", RepositoryType.DIRECTORY.name());
-        return isDirectoryIdentification;
+                isFileSystemIdentification ? "to be" : "not to be", RepositoryType.FILESYSTEM.name());
+        return isFileSystemIdentification;
     }
 }
