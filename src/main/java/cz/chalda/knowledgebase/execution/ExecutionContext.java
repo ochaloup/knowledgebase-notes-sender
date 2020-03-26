@@ -3,12 +3,16 @@ package cz.chalda.knowledgebase.execution;
 import cz.chalda.knowledgebase.converter.ConverterType;
 import cz.chalda.knowledgebase.repository.RepositoryType;
 import cz.chalda.knowledgebase.selector.SelectorType;
+import cz.chalda.knowledgebase.utils.StackTrace;
 
 import java.nio.file.Path;
 
 public class ExecutionContext {
     private final ExecutionConfiguration executionConfiguration;
-    private Path repositoryPath, knowledgebaseNotePath;
+    private Path repositoryLocation, knowledgebaseNotePath;
+
+    private volatile boolean isError = true;
+    private String errorMessage, stackTrace;
 
     private ExecutionContext(ExecutionConfiguration conf) {
         this.executionConfiguration = conf;
@@ -18,12 +22,12 @@ public class ExecutionContext {
         return this.executionConfiguration;
     }
 
-    public ExecutionContext setRepositoryPath(Path repositoryPath) {
-        this.repositoryPath = repositoryPath;
+    public ExecutionContext setRepositoryLocation(Path repositoryLocation) {
+        this.repositoryLocation = repositoryLocation;
         return this;
     }
-    public Path getRepositoryPath() {
-        return this.repositoryPath;
+    public Path getRepositoryLocation() {
+        return this.repositoryLocation;
     }
 
 
@@ -35,9 +39,33 @@ public class ExecutionContext {
         return this.knowledgebaseNotePath;
     }
 
+    /* --------- ERROR INFO variables ------------ */
+    public boolean isError() {
+        return this.isError;
+    }
 
+    public String getErrorMessage() {
+        return String.format("%s%n%s", this.errorMessage, this.stackTrace);
+    }
+
+    public ExecutionContext setError(String message, Object... formatArgs) {
+        return setError(StackTrace.getStackTrace(), message, formatArgs);
+    }
+
+    public ExecutionContext setError(Exception e, String message, Object... formatArgs) {
+        return setError(StackTrace.exceptionToStackTrace(e), message, formatArgs);
+    }
+
+    private ExecutionContext setError(String stackTrace, String message, Object... formatArgs) {
+        this.errorMessage = String.format(message, formatArgs);
+        this.stackTrace = stackTrace;
+        this.isError = true;
+        return this;
+    }
+
+    /* --------- Execution Context Builder ------------ */
     public static class Builder {
-        private String repository, repositoryRef;
+        private String inputLocation, repositoryRef;
         private RepositoryType repositoryType;
         private SelectorType selectorType;
         private ConverterType converterType;
@@ -48,8 +76,8 @@ public class ExecutionContext {
             return new ExecutionContext.Builder();
         }
 
-        public Builder repository(String repository) {
-            this.repository = repository;
+        public Builder inputLocation(String inputLocation) {
+            this.inputLocation = inputLocation;
             return this;
         }
         public Builder repositoryRef(String repositoryRef) {
@@ -71,7 +99,7 @@ public class ExecutionContext {
 
         public ExecutionContext build() {
             ExecutionConfiguration conf = new ExecutionConfiguration(
-                    this.repository,
+                    this.inputLocation,
                     this.repositoryRef,
                     this.repositoryType,
                     this.selectorType,

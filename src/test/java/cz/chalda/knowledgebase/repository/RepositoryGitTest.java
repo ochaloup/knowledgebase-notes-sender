@@ -89,7 +89,7 @@ public class RepositoryGitTest {
     public void matchGitType() {
         ExecutionConfiguration conf = ExecutionConfigurationProvider.repository(null, null, RepositoryType.GIT);
         RepositoryGit repositoryGit = new RepositoryGit();
-        Assertions.assertTrue(repositoryGit.mayHandle(conf), "Repository defined as null but is type of GIT, it should be handled");
+        Assertions.assertFalse(repositoryGit.mayHandle(conf), "Repository defined as null it can't be handled");
     }
 
     @Test

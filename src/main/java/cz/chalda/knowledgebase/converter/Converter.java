@@ -1,5 +1,7 @@
 package cz.chalda.knowledgebase.converter;
 
+import cz.chalda.knowledgebase.execution.ExecutionContext;
+
 import java.nio.file.Path;
 
 public interface Converter {
@@ -9,5 +11,5 @@ public interface Converter {
      * @param filePath  a file to convert
      * @return TODO...
      */
-    void convert(Path filePath);
+    Path convert(Path filePath);
 }

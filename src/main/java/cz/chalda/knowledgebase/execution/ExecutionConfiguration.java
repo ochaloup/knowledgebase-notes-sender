@@ -7,25 +7,25 @@ import cz.chalda.knowledgebase.selector.SelectorType;
 import java.util.Objects;
 
 public class ExecutionConfiguration {
-    private final String repository, repositoryRef;
+    private final String inputLocation, repositoryRef;
     private final RepositoryType repositoryType;
     private final SelectorType selectorType;
     private final ConverterType converterType;
 
-    public ExecutionConfiguration(String repository,
+    public ExecutionConfiguration(String inputLocation,
                                   String repositoryRef,
                                   RepositoryType repositoryType,
                                   SelectorType selectorType,
                                   ConverterType converterType) {
-        this.repository = repository;
+        this.inputLocation = inputLocation;
         this.repositoryRef = repositoryRef;
         this.repositoryType = repositoryType;
         this.selectorType = selectorType;
         this.converterType = converterType;
     }
 
-    public String getRepository() {
-        return this.repository;
+    public String getInputLocation() {
+        return this.inputLocation;
     }
 
     public String getRepositoryRef() {
@@ -47,7 +47,7 @@ public class ExecutionConfiguration {
     @Override
     public String toString() {
         return "ExecutionConfiguration{" +
-                "repository='" + repository + '\'' +
+                "inputLocation='" + inputLocation + '\'' +
                 ", repositoryRef='" + repositoryRef + '\'' +
                 ", repositoryType=" + repositoryType +
                 ", selectorType=" + selectorType +
@@ -60,7 +60,7 @@ public class ExecutionConfiguration {
         if (this == o) return true;
         if (!(o instanceof ExecutionConfiguration)) return false;
         ExecutionConfiguration that = (ExecutionConfiguration) o;
-        return Objects.equals(getRepository(), that.getRepository()) &&
+        return Objects.equals(getInputLocation(), that.getInputLocation()) &&
                 Objects.equals(getRepositoryRef(), that.getRepositoryRef()) &&
                 getRepositoryType() == that.getRepositoryType() &&
                 getSelectorType() == that.getSelectorType() &&
@@ -69,6 +69,6 @@ public class ExecutionConfiguration {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getRepository(), getRepositoryRef(), getRepositoryType(), getSelectorType(), getConverterType());
+        return Objects.hash(getInputLocation(), getRepositoryRef(), getRepositoryType(), getSelectorType(), getConverterType());
     }
 }

@@ -12,15 +12,15 @@ class RandomSelector implements Selector {
     private static final FluentLogger log = FluentLogger.forEnclosingClass();
 
     @Override
-    public Path select(final Path repositoryFolder) {
-        if (repositoryFolder == null) throw new  NullPointerException("repositoryFolder");
-        if (!Files.isDirectory(repositoryFolder)) {
-            throw new IllegalStateException("The provided path is not an existing folder at " + repositoryFolder);
+    public Path select(final Path repositoryLocation) {
+        if (repositoryLocation == null) throw new  NullPointerException("repositoryLocation");
+        if (!Files.isDirectory(repositoryLocation)) {
+            throw new IllegalStateException("The provided path is not an existing folder at " + repositoryLocation);
         }
 
         Supplier<Stream<Path>> fileWalkStream = () -> {
             try {
-                return Files.walk(repositoryFolder)
+                return Files.walk(repositoryLocation)
                         .filter(path -> Files.isRegularFile(path))
                         .filter(path -> path.getFileName().toString().endsWith(".adoc"));
             } catch (Exception e) {
@@ -36,5 +36,11 @@ class RandomSelector implements Selector {
                 .skip(randomSkipNumber)
                 .findAny()
                 .orElse(null);
+    }
+
+    @Override
+    public boolean mayHandle(Path repositoryLocation) {
+        if(repositoryLocation == null) return false;
+        return Files.isDirectory(repositoryLocation);
     }
 }

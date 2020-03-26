@@ -15,8 +15,8 @@ class RepositoryGit implements Repository {
 
     @Override
     public Path obtain(ExecutionConfiguration conf) {
-        String directoryNamePrefix = conf.getRepository().replaceAll("[^\\w\\.]", "-");
-        String repositoryName = cleanRepoName(conf.getRepository());
+        String directoryNamePrefix = conf.getInputLocation().replaceAll("[^\\w\\.]", "-");
+        String repositoryName = cleanRepoName(conf.getInputLocation());
         Path outputDirectory = null;
         try {
             outputDirectory = Files.createTempDirectory(directoryNamePrefix + "__");
@@ -40,15 +40,11 @@ class RepositoryGit implements Repository {
 
     @Override
     public boolean mayHandle(ExecutionConfiguration conf) {
-        if(RepositoryType.GIT == conf.getRepositoryType()) {
-            log.atFinest().log("repository type defines this is identification of git");
-            return true;
-        }
-        if (conf.getRepository() == null) {
+        if (conf.getInputLocation() == null) {
             log.atFinest().log("repository provided by configuration object is null");
             return false;
         }
-        var isGitIdentification = conf.getRepository().contains("github.com");
+        var isGitIdentification = conf.getInputLocation().contains("github.com");
         log.atFinest().log("repositoryIdentification was decided %s git type", isGitIdentification ? "to be" : "not to be");
         return isGitIdentification;
     }
