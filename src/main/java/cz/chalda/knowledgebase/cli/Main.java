@@ -43,7 +43,7 @@ public class Main extends CliArgs implements Callable<Integer> {
     }
 
     // Running of the code is done via Picocli library
-    // main method only let the library to parse the cli arguments and then executes via Callable.call
+    // main method runs cli parsing and executes the real code via Callable.call
     public static void main(String... args) {
         int exitCode = new CommandLine(new Main())
                 .setCaseInsensitiveEnumValuesAllowed(true)

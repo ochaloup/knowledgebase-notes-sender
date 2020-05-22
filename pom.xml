@@ -95,9 +95,7 @@
               <version>${version.picocli}</version>
             </path>
           </annotationProcessorPaths>
-          <compilerArgs>
-            <arg>-Aproject=${project.groupId}/${project.artifactId}</arg>
-          </compilerArgs>
+          <compilerArgs>--enable-preview</compilerArgs>
           <source>14</source>
           <target>14</target>
         </configuration>

@@ -8,7 +8,10 @@ import picocli.CommandLine;
 
 @CommandLine.Command(name = "knowledgebase notes sender", mixinStandardHelpOptions = true, version = "1.0.0.Alpha")
 public class CliArgs {
-    @CommandLine.Option(names = {"-i", "--input"}, description = "input location (e.g. git repository url) to use", required = true)
+    @CommandLine.Option(names = {"-f", "--configfile"}, description = "configuration file to load properties from (default location to search is ~/.knowledgebase-notes)")
+    protected String configFile;
+
+    @CommandLine.Option(names = {"-i", "--input"}, description = "input location (e.g. git repository url) to use")
     protected String inputLocation;
 
     @CommandLine.Option(names = {"-r", "--ref"}, description = "repository reference (ie. brach or tag of git repository)")
