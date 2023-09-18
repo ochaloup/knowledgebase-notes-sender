@@ -16,7 +16,7 @@
 
     <version.asciidoctor>2.1.0</version.asciidoctor>
     <version.flogger>0.5</version.flogger>
-    <version.jgit>5.7.0.202003110725-r</version.jgit>
+    <version.jgit>6.6.1.202309021850-r</version.jgit>
     <version.junit>5.6.1</version.junit>
     <version.picocli>4.2.0</version.picocli>
     <version.slf4j>1.7.30</version.slf4j>
